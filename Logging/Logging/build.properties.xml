@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<project
+  xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://nant.sf.net/release/0.86-beta1/nant.xsd 
+                      http://nant.sourceforge.net/release/latest/nant.xsd"  
+  name="Properties" default="build" basedir=".">
+  
+  <property name="output.file.name" value="Logging.dll"/>
+  
+  <assemblyfileset id="build.libs">
+    <include name="${dist.dir}/Assert.dll"/>
+  </assemblyfileset>
+</project>
+

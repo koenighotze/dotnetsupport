@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<project
+  xmlns="http://nant.sf.net/release/0.86-beta1/nant.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://nant.sf.net/release/0.86-beta1/nant.xsd 
+                      http://nant.sourceforge.net/release/latest/nant.xsd"  
+  name="Assert" default="build" basedir=".">
+
+  <include buildfile="build.properties.xml" failonerror="false"/>
+
+  <property name="dist.dir" value="c:/DotNetLibraries"/>
+  <property name="target.dir" value="target"/>
+  <property name="build.dir" value="${target.dir}/build"/>
+  <property name="src.dir" value="src"/>
+  <property name="src.cs.dir" value="${src.dir}"/>
+  <property name="src.test.dir" value="Test"/>
+  
+  <property name="debug" value="true" overwrite="false" />
+  
+  <target name="clean" description="remove all generated files">
+    <echo message="Cleaning project directory"/>
+    <delete dir="${target.dir}" failonerror="false"/>
+  </target>
+
+  <target name="setup" 
+          description="Creates basis project build directory">
+    <mkdir dir="${build.dir}"/>
+  </target>
+
+  <target name="compile" description="Compiles the project" depends="setup">
+    <csc target="library"          
+         output="${build.dir}/${output.file.name}" 
+         debug="${debug}">
+      
+      <references>
+        <lib refid="sys.assemblies">
+          
+        </lib>
+        <lib refid="org.hotze.assemblies">
+          
+        </lib>
+      </references>
+      <sources>
+        <include name="${src.cs.dir}/**/*.cs"/>
+        <include name="${src.test.dir}/**/*.cs"/>
+      </sources>
+    </csc>
+  </target>
+
+  <target name="test" description="Runs nunit tests" depends="compile">
+    <nunit2>
+      <formatter type="Plain"/>
+      <test assemblyname="${build.dir}/${output.file.name}">
+      </test>          
+    </nunit2>
+  </target>
+  
+  <target name="dist" description="distributes the generated files" depends="clean, compile, test">
+    <copy file="${build.dir}/${output.file.name}" todir="${dist.dir}"/>
+  </target>
+</project>
+
